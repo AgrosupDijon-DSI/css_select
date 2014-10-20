@@ -81,7 +81,7 @@ class ext_update
         $this->_NL         = chr( 10 );
         
         // New instance of the TYPO3 document class
-        $this->_doc        = t3lib_div::makeInstance( 'bigDoc' );
+        $this->_doc        = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance( 'TYPO3\\CMS\\Backend\\Template\\BigDocumentTemplate' );
         
         // Checks for the extension configuration
         if( isset( $GLOBALS[ 'TYPO3_CONF_VARS' ][ 'EXT' ][ 'extConf' ][ 'css_select' ] ) ) {
@@ -116,13 +116,13 @@ class ext_update
         
         // Starts the form
         $htmlCode[] = '<form action="'
-                    . t3lib_div::linkThisScript()
+                    . \TYPO3\CMS\Core\Utility\GeneralUtility::linkThisScript()
                     . '" method="post" id="updateCssSelect" name="updateCssSelect">';
         
         // Infos
         $htmlCode[] = '<div>'
                     . '<img '
-                    . t3lib_iconWorks::skinImg( $this->_backPath, 'gfx/icon_note.gif', '' )
+                    . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg( $this->_backPath, 'gfx/icon_note.gif', '' )
                     . ' alt="" hspace="0" vspace="0" border="0" align="middle">&nbsp;'
                     . '<strong>Note:</strong><br />'
                     . 'The following pages need to be updated in order to be compatible with the new version of the "css_select" extension.<br />'
@@ -166,7 +166,7 @@ class ext_update
             if( !isset( $pageIcons[ $page[ 'doktype' ] ] ) ) {
                 
                 // Gets the icon for the current page type
-                $pageIcons[ $page[ 'doktype' ] ] = t3lib_iconWorks::getIconImage( 'pages', $page, $this->_backPath );
+                $pageIcons[ $page[ 'doktype' ] ] = \TYPO3\CMS\Backend\Utility\IconUtility::getIconImage( 'pages', $page, $this->_backPath );
             }
             
             // Row color
@@ -234,7 +234,7 @@ class ext_update
             foreach( $pages as $uid ) {
                 
                 // Gets the current page
-                $page             = t3lib_BEfunc::getRecord( 'pages', $uid, $fields = 'tstamp,tx_cssselect_stylesheets' );
+                $page             = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord( 'pages', $uid, $fields = 'tstamp,tx_cssselect_stylesheets' );
                 
                 // Sets the modification time
                 $page[ 'tstamp' ] = time();
@@ -264,7 +264,7 @@ class ext_update
         // Confirmation message
         $message = '<div>'
                  . '<img '
-                 . t3lib_iconWorks::skinImg( $this->_backPath, 'gfx/icon_note.gif', '' )
+                 . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg( $this->_backPath, 'gfx/icon_note.gif', '' )
                  . ' alt="" hspace="0" vspace="0" border="0" align="middle">&nbsp;'
                  . '<strong>Success:</strong><br />'
                  . 'The pages were successfully updated. The update option won\'t appear anymore in the extension manager.<br />'
@@ -319,7 +319,7 @@ class ext_update
     public function main()
     {
         // Checks if the form has been submitted
-        if( t3lib_div::_POST( 'submit' ) ) {
+        if( \TYPO3\CMS\Core\Utility\GeneralUtility::_POST( 'submit' ) ) {
             
             // Updates the pages
             return $this->_updatePages();
@@ -328,9 +328,4 @@ class ext_update
         // Default view - List pages which needs an update
         return $this->_listPages();
     }
-}
-
-// XCLASS inclusion
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/css_select/class.ext_update.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/css_select/class.ext_update.php']);
 }

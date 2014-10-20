@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2014-10-15T17:18:26Z" product-name="css_select">
+		<header/>
+		<body>
+                    <trans-unit id="pages.tx_cssselect_stylesheets" xml:space="preserve">
+                        <source>Select stylesheet(s)</source>
+                    </trans-unit>
+                    <trans-unit id="pages.tx_cssselect_inheritance" xml:space="preserve">
+                        <source>Stylesheet inheritance mode</source>
+                    </trans-unit>
+                    <trans-unit id="pages.tx_cssselect_inheritance.I.0" xml:space="preserve">
+                        <source>Normal</source>
+                    </trans-unit>
+                    <trans-unit id="pages.tx_cssselect_inheritance.I.1" xml:space="preserve">
+                        <source>Skip (don't herit from this page)</source>
+                    </trans-unit>
+                    <trans-unit id="pages.tx_cssselect_inheritance.I.2" xml:space="preserve">
+                        <source>Stop (don't herit from this page and the pages above)</source>
+                    </trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,4 +1,7 @@
 <?php
+
+namespace Cnerta\CssSelect\Backend;
+
 /***************************************************************
  * Copyright notice
  * 
@@ -39,7 +42,7 @@
  *          TOTAL FUNCTIONS: 2
  */
 
-class tx_cssselect_handleStylesheets
+class HandleStylesheets
 {
     // Extensions for CSS files
     protected $_cssExt = array();
@@ -64,10 +67,10 @@ class tx_cssselect_handleStylesheets
         if( $recursive ) {
             
             // New instance of the SPL recursive directory iterator class
-            $directoryIterator = new RecursiveDirectoryIterator( $path );
+            $directoryIterator = new \RecursiveDirectoryIterator( $path );
             
             // New instance of the iterator iterator class
-            $iterator          = new RecursiveIteratorIterator( $directoryIterator );
+            $iterator          = new \RecursiveIteratorIterator( $directoryIterator );
             
         } else {
             
@@ -116,9 +119,9 @@ class tx_cssselect_handleStylesheets
             
             // Adds the current CSS file to the parameters array
             $this->_items[ $fileId ] = array(
-                $fileName . ' (' . $fileRelPath . ')',  // Label
-                $fileRelPath . $fileName,               // Value
-                'EXT:css_select/res/css.gif'            // Icon
+                $fileName . ' (' . $fileRelPath . ')',          // Label
+                $fileRelPath . $fileName,                       // Value
+                'EXT:css_select/Resources/Public/Icons/css.gif' // Icon
             );
         }
     }
@@ -134,7 +137,7 @@ class tx_cssselect_handleStylesheets
      * @return  NULL
      * @see     _addStyleSheets
      */
-    public function main( array &$params, $pObj )
+    public function main( array $params, $pObj )
     {
         // Stores a reference to the items array
         $this->_items =& $params[ 'items' ];
@@ -146,7 +149,7 @@ class tx_cssselect_handleStylesheets
             $extConf = unserialize( $GLOBALS[ 'TYPO3_CONF_VARS' ][ 'EXT' ][ 'extConf' ][ 'css_select' ] );
             
             // Gets the page TSConfig for the current page
-            $tsConf  = t3lib_BEfunc::getPagesTSconfig( $params[ 'row' ][ 'uid' ] );
+            $tsConf  = \TYPO3\CMS\Backend\Utility\BackendUtility::getPagesTSconfig( $params[ 'row' ][ 'uid' ] );
             
             // Checks for a configuration in the page TSConfig
             if( isset( $tsConf[ 'tx_cssselect.' ][ 'cssDir' ] ) ) {
@@ -161,7 +164,7 @@ class tx_cssselect_handleStylesheets
             }
             
             // Stores the CSS extensions
-            $cssExt        = explode( ',', $extConf[ 'CSSEXT' ] );
+            $_cssExt        = explode( ',', $extConf[ 'CSSEXT' ] );
             
             // Stores the list of CSS extensions
             $this->_cssExt = array_flip( $cssExt );
@@ -176,7 +179,7 @@ class tx_cssselect_handleStylesheets
                 $dir = ( substr( $dir, -1 ) != '/' ) ? $dir . '/' : $dir;
                 
                 // Gets the absolute path
-                $readPath = t3lib_div::getFileAbsFileName( $dir );
+                $readPath = \TYPO3\CMS\Core\Utility\GeneralUtility::getFileAbsFileName( $dir );
                 
                 // Checks if the directory exists
                 if( file_exists( $readPath ) && is_dir( $readPath ) ) {
@@ -190,11 +193,4 @@ class tx_cssselect_handleStylesheets
             ksort( $params[ 'items' ] );
         }
     }
-}
-
-/**
- * XClass inclusion.
- */
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/css_select/class.tx_cssselect_handlestylesheets.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/css_select/class.tx_cssselect_handlestylesheets.php']);
 }

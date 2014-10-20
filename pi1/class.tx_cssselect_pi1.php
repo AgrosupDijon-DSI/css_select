@@ -42,10 +42,10 @@
  *          TOTAL FUNCTIONS: 5
  */
 
-// Requires the TYPO3 FE plugin base
-require_once( PATH_tslib . 'class.tslib_pibase.php' );
+use TYPO3\CMS\Core\Page\PageRenderer;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_cssselect_pi1 extends tslib_pibase
+class tx_cssselect_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {
     // Extension configuration array
     protected $_extConf   = array();
@@ -72,6 +72,12 @@ class tx_cssselect_pi1 extends tslib_pibase
     public $extKey        = 'css_select';
     
     /**
+     *
+     * @var \TYPO3\CMS\Core\Resource\ResourceCompressor
+     */
+    protected $compressor;
+    
+    /**
      * Class constructor
      * 
      * @return  NULL
@@ -85,6 +91,18 @@ class tx_cssselect_pi1 extends tslib_pibase
         $this->_TAB = chr( 9 );
     }
     
+    /**
+     * Returns instance of \TYPO3\CMS\Core\Resource\ResourceCompressor
+     * 
+     * @return \TYPO3\CMS\Core\Resource\ResourceCompressor
+     */
+    protected function getCompressor() {
+        if ($this->compressor === NULL) {
+            $this->compressor = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ResourceCompressor');
+        }
+        return $this->compressor;
+    }
+
     /**
      * Builds the index of the page stylesheets.
      * 
@@ -156,7 +174,7 @@ class tx_cssselect_pi1 extends tslib_pibase
         // Storage for the CSS files
         $files = array();
         
-        // Checks if the recursive option si set
+        // Checks if the recursive option is set
         if( isset( $this->_conf[ 'recursive' ] ) && $this->_conf[ 'recursive' ] ) {
             
             // Check each top page
@@ -191,6 +209,11 @@ class tx_cssselect_pi1 extends tslib_pibase
                     // Process each selected file
                     foreach( $pageFiles as $file ) {
                         
+                        // Checks if the ResourceCompressor must be used to compress the css files
+                        if( isset( $this->_conf[ 'useCompressor' ] ) && $this->_conf[ 'useCompressor' ] ) {
+                            $file = $this->getCompressor()->compressCssFile($file);
+                        }
+                        
                         // Adds the selected stylesheet
                         $files[ $file ] = array(
                             'file' => $file,
@@ -207,6 +230,11 @@ class tx_cssselect_pi1 extends tslib_pibase
             
             // Process each selected file
             foreach( $pageFiles as $file ) {
+                
+                // Checks if the ResourceCompressor must be used to compress the css files
+                if( isset( $this->_conf[ 'useCompressor' ] ) && $this->_conf[ 'useCompressor' ] ) {
+                    $file = $this->getCompressor()->compressCssFile($file);
+                }
                 
                 // Adds the selected stylesheet
                 $files[ $file ] = array(
@@ -333,15 +361,8 @@ class tx_cssselect_pi1 extends tslib_pibase
                 }
                 
                 // Return the header data
-                return implode( $this->_NL, $headerData ) . $this->_NL;
+                return $this->_NL . implode( $this->_NL, $headerData ) . $this->_NL;
             }
         }
     }
-}
-
-/** 
- * XClass inclusion.
- */
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/css_select/pi1/class.tx_cssselect_pi1.php']) {
-    include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/css_select/pi1/class.tx_cssselect_pi1.php']);
 }
