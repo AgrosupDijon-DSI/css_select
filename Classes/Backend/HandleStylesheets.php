@@ -36,9 +36,9 @@ namespace Cnerta\CssSelect\Backend;
 /**
  * [CLASS/FUNCTION INDEX OF SCRIPT]
  * 
- *   42:    class tx_cssselect_handleStylesheets
- *   61:    protected function _addStyleSheets( $path, $relDir, $recursive = false )
- *  137:    public function main( array &$params, $pObj )
+ *   46:    class tx_cssselect_handleStylesheets
+ *   65:    protected function _addStyleSheets( $path, $relDir, $recursive = false )
+ *  141:    public function main( array &$params, $pObj )
  * 
  *          TOTAL FUNCTIONS: 2
  */

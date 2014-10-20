@@ -33,12 +33,13 @@
 /**
  * [CLASS/FUNCTION INDEX OF SCRIPT]
  * 
- *   48:    class tx_cssselect_pi1
- *   79:    protected function __construct
- *   93:    protected function _buildIndex
- *  127:    protected function _buildImports
- *  159:    protected function _getCSSFiles
- *  238:    public function main( $content, $conf )
+ *   50:    class tx_cssselect_pi1
+ *   87:    public function __construct
+ *  101:    protected function getCompressor
+ *  113:    protected function _buildIndex
+ *  147:    protected function _buildImports
+ *  174:    protected function _getCSSFiles
+ *  263:    public function main( $content, $conf )
  * 
  *          TOTAL FUNCTIONS: 5
  */

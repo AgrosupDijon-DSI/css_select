@@ -33,12 +33,12 @@
 /**
  * [CLASS/FUNCTION INDEX OF SCRIPT]
  * 
- *   45:    class ext_update
- *   70:    public function __construct
- *  109:    protected function _listPages
- *  225:    protected function _updatePages
- *  286:    public function access
- *  319:    public function main
+ *   46:    class ext_update
+ *   71:    public function __construct
+ *  110:    protected function _listPages
+ *  226:    protected function _updatePages
+ *  287:    public function access
+ *  320:    public function main
  * 
  *          TOTAL FUNCTIONS: 5
  */
