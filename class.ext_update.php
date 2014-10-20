@@ -1,5 +1,6 @@
 <?php
-/***************************************************************
+
+/* * *************************************************************
  * Copyright notice
  * 
  * (c) 2008 macmade.net - Jean-David Gadina (info@macmade.net)
@@ -20,7 +21,7 @@
  * GNU General Public License for more details.
  * 
  * This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+ * ************************************************************* */
 
 /**
  * Class/Function for updating the extension from older versions.
@@ -42,27 +43,25 @@
  * 
  *          TOTAL FUNCTIONS: 5
  */
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Backend\Utility\IconUtility;
 
 class ext_update
 {
+
     // SQL result set for pages with selected stylesheets
     protected static $_res = NULL;
-    
     // Instance of the TYPO3 document class
-    protected $_doc        = NULL;
-    
+    protected $_doc = NULL;
     // Back path
-    protected $_backPath   = '';
-    
+    protected $_backPath = '';
     // Date format
     protected $_dateFormat = '';
-    
     // CSS directory
-    protected $_cssDir     = '';
-    
+    protected $_cssDir = '';
     // New line character
-    protected $_NL         = '';
-    
+    protected $_NL = '';
+
     /**
      * Class constructor
      * 
@@ -71,33 +70,33 @@ class ext_update
     public function __construct()
     {
         // Sets the back path
-        $this->_backPath   = $GLOBALS[ 'BACK_PATH' ];
-        
+        $this->_backPath = $GLOBALS['BACK_PATH'];
+
         // Sets the date format
-        $this->_dateFormat = $GLOBALS[ 'TYPO3_CONF_VARS' ][ 'SYS' ][ 'ddmmyy' ]
-                           . ' - '
-                           . $GLOBALS[ 'TYPO3_CONF_VARS' ][ 'SYS' ][ 'hhmm' ];
-        
+        $this->_dateFormat = $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy']
+                . ' - '
+                . $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm'];
+
         // Sets the new line character
-        $this->_NL         = chr( 10 );
-        
+        $this->_NL = chr(10);
+
         // New instance of the TYPO3 document class
-        $this->_doc        = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance( 'TYPO3\\CMS\\Backend\\Template\\BigDocumentTemplate' );
-        
+        $this->_doc = GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Template\\BigDocumentTemplate');
+
         // Checks for the extension configuration
-        if( isset( $GLOBALS[ 'TYPO3_CONF_VARS' ][ 'EXT' ][ 'extConf' ][ 'css_select' ] ) ) {
-            
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['css_select'])) {
+
             // Gets the extension configuration
-            $extConf       = unserialize( $GLOBALS[ 'TYPO3_CONF_VARS' ][ 'EXT' ][ 'extConf' ][ 'css_select' ] );
-            
+            $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['css_select']);
+
             // Gets the CSS directories
-            $directories   = explode( ',', $extConf[ 'CSSDIR' ] );
-            
+            $directories = explode(',', $extConf['CSSDIR']);
+
             // Sets the CSS directory
-            $this->_cssDir = ( substr( $directories[ 0 ], -1 ) != '/' ) ? $directories[ 0 ] . '/': $directories[ 0 ];
+            $this->_cssDir = ( substr($directories[0], -1) != '/' ) ? $directories[0] . '/' : $directories[0];
         }
     }
-    
+
     /**
      * List the pages that need an update
      * 
@@ -110,42 +109,43 @@ class ext_update
     protected function _listPages()
     {
         // Storage
-        $htmlCode   = array();
-        
+        $htmlCode = array();
+
         // Page icons
-        $pageIcons  = array();
-        
+        $pageIcons = array();
+
         // Starts the form
         $htmlCode[] = '<form action="'
-                    . \TYPO3\CMS\Core\Utility\GeneralUtility::linkThisScript()
-                    . '" method="post" id="updateCssSelect" name="updateCssSelect">';
-        
+                . GeneralUtility::linkThisScript()
+                . '" method="post" id="updateCssSelect" name="updateCssSelect">';
+
         // Infos
+        // TODO : sprintf / EOF + voir gfx/i
         $htmlCode[] = '<div>'
-                    . '<img '
-                    . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg( $this->_backPath, 'gfx/icon_note.gif', '' )
-                    . ' alt="" hspace="0" vspace="0" border="0" align="middle">&nbsp;'
-                    . '<strong>Note:</strong><br />'
-                    . 'The following pages need to be updated in order to be compatible with the new version of the "css_select" extension.<br />'
-                    . 'Please click on the button below to start the update process.<br />'
-                    . '</div>';
-        
+                . '<img '
+                . IconUtility::skinImg($this->_backPath, 'gfx/icon_note.gif', '')
+                . ' alt="" hspace="0" vspace="0" border="0" align="middle">&nbsp;'
+                . '<strong>Note:</strong><br />'
+                . 'The following pages need to be updated in order to be compatible with the new version of the "css_select" extension.<br />'
+                . 'Please click on the button below to start the update process.<br />'
+                . '</div>';
+
         // Divider
-        $htmlCode[] = $this->_doc->spacer( 10 );
-        
+        $htmlCode[] = $this->_doc->spacer(10);
+
         // Submit button
         $htmlCode[] = '<div><input name="submit" type="submit" value="Update the pages" /></div>';
-        
+
         // Divider
-        $htmlCode[] = $this->_doc->spacer( 10 );
-        $htmlCode[] = $this->_doc->divider( 5 );
-        $htmlCode[] = $this->_doc->spacer( 10 );
-        
+        $htmlCode[] = $this->_doc->spacer(10);
+        $htmlCode[] = $this->_doc->divider(5);
+        $htmlCode[] = $this->_doc->spacer(10);
+
         // Starts the table
         $htmlCode[] = '<table border="0" width="100%" cellspacing="1" cellpadding="2" align="center" bgcolor="'
-                    . $this->_doc->bgColor2
-                    . '">';
-        
+                . $this->_doc->bgColor2
+                . '">';
+
         // Table headers
         $htmlCode[] = '<tr>';
         $htmlCode[] = '<th align="left" valign="middle"></td>';
@@ -156,64 +156,64 @@ class ext_update
         $htmlCode[] = '<th align="left" valign="middle"><strong>Creation date:</strong></td>';
         $htmlCode[] = '<th align="left" valign="middle"><strong>Modification date:</strong></td>';
         $htmlCode[] = '</tr>';
-        
+
         // Counter
-        $counter    = 0;
-        
+        $counter = 0;
+
         // Process each page
-        while( $page = $GLOBALS[ 'TYPO3_DB' ]->sql_fetch_assoc( self::$_res ) ) {
-            
+        while ($page = $GLOBALS['TYPO3_DB']->sql_fetch_assoc(self::$_res)) {
+
             // Checks for the page icon
-            if( !isset( $pageIcons[ $page[ 'doktype' ] ] ) ) {
-                
+            if (!isset($pageIcons[$page['doktype']])) {
+
                 // Gets the icon for the current page type
-                $pageIcons[ $page[ 'doktype' ] ] = \TYPO3\CMS\Backend\Utility\IconUtility::getIconImage( 'pages', $page, $this->_backPath );
+                $pageIcons[$page['doktype']] = IconUtility::getIconImage('pages', $page, $this->_backPath);
             }
-            
+
             // Row color
-            $color      = ( $counter == 0 ) ? $this->_doc->bgColor3 : $this->_doc->bgColor4;
-            
+            $color = ( $counter == 0 ) ? $this->_doc->bgColor3 : $this->_doc->bgColor4;
+
             // Label start tag
-            $labelStart = '<label for="page_' . $page[ 'uid' ] . '">';
-            
+            $labelStart = '<label for="page_' . $page['uid'] . '">';
+
             // Starts the row
             $htmlCode[] = '<tr bgcolor="'
-                        . $color
-                        . '">';
-            
+                    . $color
+                    . '">';
+
             // Hidden input for the page ID
-            $hidden     = '<input name="pages[]" id="page_'
-                        . $page[ 'uid' ]
-                        . '" type="hidden" value="'
-                        . $page[ 'uid' ]
-                        . '" />';
-            
+            $hidden = '<input name="pages[]" id="page_'
+                    . $page['uid']
+                    . '" type="hidden" value="'
+                    . $page['uid']
+                    . '" />';
+
             // Page fields
-            $htmlCode[] = '<td align="left" valign="middle">' . $labelStart . $pageIcons[ $page[ 'doktype' ] ]                    . '</label></td>';
-            $htmlCode[] = '<td align="left" valign="middle">' . $hidden . $page[ 'uid' ]                                          . '</td>';
-            $htmlCode[] = '<td align="left" valign="middle">' . $page[ 'pid' ]                                                    . '</td>';
-            $htmlCode[] = '<td align="left" valign="middle">' . $labelStart . '<strong>' . $page[ 'title' ]                       . '</strong></label></td>';
-            $htmlCode[] = '<td align="left" valign="middle">' . str_replace( ',', '<br />', $page[ 'tx_cssselect_stylesheets' ] ) . '</td>';
-            $htmlCode[] = '<td align="left" valign="middle">' . date( $this->_dateFormat, $page[ 'crdate' ] )                     . '</td>';
-            $htmlCode[] = '<td align="left" valign="middle">' . date( $this->_dateFormat, $page[ 'tstamp' ] )                     . '</td>';
-            
+            $htmlCode[] = '<td align="left" valign="middle">' . $labelStart . $pageIcons[$page['doktype']] . '</label></td>';
+            $htmlCode[] = '<td align="left" valign="middle">' . $hidden . $page['uid'] . '</td>';
+            $htmlCode[] = '<td align="left" valign="middle">' . $page['pid'] . '</td>';
+            $htmlCode[] = '<td align="left" valign="middle">' . $labelStart . '<strong>' . $page['title'] . '</strong></label></td>';
+            $htmlCode[] = '<td align="left" valign="middle">' . str_replace(',', '<br />', $page['tx_cssselect_stylesheets']) . '</td>';
+            $htmlCode[] = '<td align="left" valign="middle">' . date($this->_dateFormat, $page['crdate']) . '</td>';
+            $htmlCode[] = '<td align="left" valign="middle">' . date($this->_dateFormat, $page['tstamp']) . '</td>';
+
             // Ends the row
             $htmlCode[] = '</tr>';
-            
+
             // Sets the counter
-            $counter    = ( $counter == 1 ) ? 0 : 1;
+            $counter = ( $counter == 1 ) ? 0 : 1;
         }
-        
+
         // Ends the table
         $htmlCode[] = '</table>';
-        
+
         // Ends the form
         $htmlCode[] = '</form>';
-        
+
         // Return content
-        return implode( $this->_NL, $htmlCode );
+        return implode($this->_NL, $htmlCode);
     }
-    
+
     /**
      * Updates the pages
      * 
@@ -226,56 +226,54 @@ class ext_update
     protected function _updatePages()
     {
         // Gets the list of pages to update
-        $pages  = t3lib_div::_POST( 'pages' );
-        
+        $pages = GeneralUtility::_POST('pages');
+
         // Checks for pages
-        if( is_array( $pages ) && count( $pages ) ) {
-            
+        if (is_array($pages) && count($pages)) {
+
             // Process each server
-            foreach( $pages as $uid ) {
-                
+            foreach ($pages as $uid) {
+
                 // Gets the current page
-                $page             = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord( 'pages', $uid, $fields = 'tstamp,tx_cssselect_stylesheets' );
-                
+                $page = \TYPO3\CMS\Backend\Utility\BackendUtility::getRecord('pages', $uid, $fields = 'tstamp,tx_cssselect_stylesheets');
+
                 // Sets the modification time
-                $page[ 'tstamp' ] = time();
-                
+                $page['tstamp'] = time();
+
                 // Gets the selected CSS files
-                $cssFiles         = explode( ',', $page[ 'tx_cssselect_stylesheets' ] );
-                
+                $cssFiles = explode(',', $page['tx_cssselect_stylesheets']);
+
                 // Process each CSS file
-                foreach( $cssFiles as $key => $value ) {
-                    
+                foreach ($cssFiles as $key => $value) {
+
                     // Prefix with the CSS directory
-                    $cssFiles[ $key ] = $this->_cssDir . $value;
+                    $cssFiles[$key] = $this->_cssDir . $value;
                 }
-                
+
                 // Updates the selected stylesheets
-                $page[ 'tx_cssselect_stylesheets' ] = implode( ',', $cssFiles );
-                
+                $page['tx_cssselect_stylesheets'] = implode(',', $cssFiles);
+
                 // Updates the page
-                $GLOBALS[ 'TYPO3_DB' ]->exec_UPDATEquery(
-                    'pages',
-                    'uid=' . $uid,
-                    $page
+                $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
+                        'pages', 'uid=' . $uid, $page
                 );
             }
         }
-        
+
         // Confirmation message
         $message = '<div>'
-                 . '<img '
-                 . \TYPO3\CMS\Backend\Utility\IconUtility::skinImg( $this->_backPath, 'gfx/icon_note.gif', '' )
-                 . ' alt="" hspace="0" vspace="0" border="0" align="middle">&nbsp;'
-                 . '<strong>Success:</strong><br />'
-                 . 'The pages were successfully updated. The update option won\'t appear anymore in the extension manager.<br />'
-                 . 'Thank you for using the "css_select" extension.'
-                 . '</div>';
-        
+                . '<img '
+                . IconUtility::skinImg($this->_backPath, 'gfx/icon_note.gif', '')
+                . ' alt="" hspace="0" vspace="0" border="0" align="middle">&nbsp;'
+                . '<strong>Success:</strong><br />'
+                . 'The pages were successfully updated. The update option won\'t appear anymore in the extension manager.<br />'
+                . 'Thank you for using the "css_select" extension.'
+                . '</div>';
+
         // Returns the confirmation message
         return $message;
     }
-    
+
     /**
      * Checks if an update is needed.
      * 
@@ -287,28 +285,24 @@ class ext_update
     public function access()
     {
         // Checks for pages with stylesheets
-        $res = $GLOBALS[ 'TYPO3_DB' ]->exec_SELECTquery(
-            'uid,pid,crdate,tstamp,title,doktype,tx_cssselect_stylesheets',
-            'pages',
-            'tx_cssselect_stylesheets != "" AND tx_cssselect_stylesheets NOT LIKE "%/%"',
-            '',
-            'title'
+        $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                'uid,pid,crdate,tstamp,title,doktype,tx_cssselect_stylesheets', 'pages', 'tx_cssselect_stylesheets != "" AND tx_cssselect_stylesheets NOT LIKE "%/%"', '', 'title'
         );
-        
+
         // Checks the SQL result set
-        if( !$res ) {
-            
+        if (!$res) {
+
             // No update needed
             return false;
         }
-        
+
         // Stores the SQL result set
         self::$_res = $res;
-        
+
         // Returns true if pages were found
-        return ( $GLOBALS[ 'TYPO3_DB' ]->sql_num_rows( $res ) ) ? true : false;
+        return ( $GLOBALS['TYPO3_DB']->sql_num_rows($res) ) ? true : false;
     }
-    
+
     /**
      * Update extension
      * 
@@ -320,13 +314,14 @@ class ext_update
     public function main()
     {
         // Checks if the form has been submitted
-        if( \TYPO3\CMS\Core\Utility\GeneralUtility::_POST( 'submit' ) ) {
-            
+        if (GeneralUtility::_POST('submit')) {
+
             // Updates the pages
             return $this->_updatePages();
         }
-        
+
         // Default view - List pages which needs an update
         return $this->_listPages();
     }
+
 }

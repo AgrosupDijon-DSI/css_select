@@ -1,28 +1,29 @@
 <?php
-/***************************************************************
-* Copyright notice
-* 
-* (c) 2008 macmade.net - Jean-David Gadina (info@macmade.net)
-* All rights reserved
-* 
-* This script is part of the TYPO3 project. The TYPO3 project is 
-* free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-* 
-* The GNU General Public License can be found at
-* http://www.gnu.org/copyleft/gpl.html.
-* 
-* This script is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-* 
-* This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
 
-/** 
+/* * *************************************************************
+ * Copyright notice
+ * 
+ * (c) 2008 macmade.net - Jean-David Gadina (info@macmade.net)
+ * All rights reserved
+ * 
+ * This script is part of the TYPO3 project. The TYPO3 project is 
+ * free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ * 
+ * The GNU General Public License can be found at
+ * http://www.gnu.org/copyleft/gpl.html.
+ * 
+ * This script is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * This copyright notice MUST APPEAR in all copies of the script!
+ * ************************************************************* */
+
+/**
  * Plugin 'StyleSheet Selector' for the 'css_select' extension.
  *
  * @author      Jean-David Gadina <info@macmade.net>
@@ -44,41 +45,32 @@
  *          TOTAL FUNCTIONS: 5
  */
 
-use TYPO3\CMS\Core\Page\PageRenderer;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 class tx_cssselect_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
 {
+
     // Extension configuration array
-    protected $_extConf   = array();
-    
+    protected $_extConf = array();
     // TypoScript configuration array
-    protected $_conf      = array();
-    
+    protected $_conf = array();
     // CSS files to load
-    protected $_cssFiles  = array();
-    
+    protected $_cssFiles = array();
     // New line character
-    protected $_NL        = '';
-    
+    protected $_NL = '';
     // Tabulation character
-    protected $_TAB       = '';
-    
+    protected $_TAB = '';
     // Class name
-    public $prefixId      = 'tx_cssselect_pi1';
-    
+    public $prefixId = 'tx_cssselect_pi1';
     // Path to this script relative to the TYPO3 extension directory
     public $scriptRelPath = 'pi1/class.tx_cssselect_pi1.php';
-    
     // The extension key
-    public $extKey        = 'css_select';
-    
+    public $extKey = 'css_select';
+
     /**
      *
      * @var \TYPO3\CMS\Core\Resource\ResourceCompressor
      */
     protected $compressor;
-    
+
     /**
      * Class constructor
      * 
@@ -87,20 +79,21 @@ class tx_cssselect_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     public function __construct()
     {
         // Sets the new line character
-        $this->_NL  = chr( 10 );
-        
+        $this->_NL = chr(10);
+
         // Sets the tabulation character
-        $this->_TAB = chr( 9 );
+        $this->_TAB = chr(9);
     }
-    
+
     /**
      * Returns instance of \TYPO3\CMS\Core\Resource\ResourceCompressor
      * 
      * @return \TYPO3\CMS\Core\Resource\ResourceCompressor
      */
-    protected function getCompressor() {
+    protected function getCompressor()
+    {
         if ($this->compressor === NULL) {
-            $this->compressor = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ResourceCompressor');
+            $this->compressor = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ResourceCompressor');
         }
         return $this->compressor;
     }
@@ -114,31 +107,25 @@ class tx_cssselect_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     {
         // Storage
         $index = array();
-        
+
         // Index counter
-        $i     = 1;
-        
+        $i = 1;
+
         // Process each stylesheet
-        foreach( $this->_cssFiles as $key => $value ) {
-            
+        foreach ($this->_cssFiles as $key => $value) {
+
             // Adds the stylesheet to the index
-            $index[] = $this->_TAB
-                     . ' * '
-                     . $i
-                     . ') '
-                     . $value[ 'file' ]
-                     . ' (page ID: '
-                     . $value[ 'pid' ]
-                     . ')';
-            
+            $format = '%s * %d) %s (page ID: %d)';
+            $index[] = sprintf($format, $this->_TAB, $i, $value['file'], $value['pid']);
+
             // Increments the index counter
             $i++;
         }
-        
+
         // Returns the index
-        return implode( $this->_NL, $index );
+        return implode($this->_NL, $index);
     }
-    
+
     /**
      * Builds CSS @import rules.
      * 
@@ -148,21 +135,19 @@ class tx_cssselect_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
     {
         // Storage
         $imports = array();
-        
+
         // Process each stylesheet
-        foreach( $this->_cssFiles as $key => $value ) {
-            
+        foreach ($this->_cssFiles as $value) {
+
             // Adds the @import rule
-            $imports[] = $this->_TAB
-                       . '@import url( "'
-                       . $value[ 'file' ]
-                       . '" );';
+            $format = '%s@import url( "%s" );';
+            $imports[] = sprintf($format, $this->_TAB, $value['file']);
         }
-        
+
         // Returns the import rules
-        return implode( $this->_NL, $imports );
+        return implode($this->_NL, $imports);
     }
-    
+
     /**
      * Returns all the selected CSS file
      * 
@@ -172,84 +157,82 @@ class tx_cssselect_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * @return  mixed   If CSS files are found, an array with the CSS files relative paths. Otherwise false.
      */
     protected function _getCSSFiles()
-    {            
+    {
         // Storage for the CSS files
         $files = array();
-        
+
         // Checks if the recursive option is set
-        if( isset( $this->_conf[ 'recursive' ] ) && $this->_conf[ 'recursive' ] ) {
-            
+        if (isset($this->_conf['recursive']) && $this->_conf['recursive']) {
+
             // Check each top page
-            foreach( $GLOBALS[ 'TSFE' ]->config[ 'rootLine' ] as $topPage ) {
-                
+            foreach ($GLOBALS['TSFE']->config['rootLine'] as $topPage) {
+
                 // Checks the inheritance mode
-                if( $topPage[ 'tx_cssselect_inheritance' ] == 1 && $GLOBALS[ 'TSFE' ]->id != $topPage[ 'uid' ] ) {
-                    
+                if ($topPage['tx_cssselect_inheritance'] == 1 && $GLOBALS['TSFE']->id != $topPage['uid']) {
+
                     // Process the next page
                     continue;
-                    
-                } elseif( $topPage[ 'tx_cssselect_inheritance' ] == 2 ) {
-                    
+                } elseif ($topPage['tx_cssselect_inheritance'] == 2) {
+
                     // Erase stored styles
                     $files = array();
-                    
+
                     // Checks the current PID
-                    if( $GLOBALS[ 'TSFE' ]->id != $topPage[ 'uid' ] ) {
-                                                
+                    if ($GLOBALS['TSFE']->id != $topPage['uid']) {
+
                         // Process the next page
                         continue;
                     }
                 }
-                
+
                 // Checks if a stylesheet is specified
                 // Thanx to Wolfgang Klinger for the debug
-                if( $topPage[ 'tx_cssselect_stylesheets' ] ) {
-                    
+                if ($topPage['tx_cssselect_stylesheets']) {
+
                     // Gets the selected CSS files for the current page
-                    $pageFiles = explode( ',', $topPage[ 'tx_cssselect_stylesheets' ] );
-                    
+                    $pageFiles = explode(',', $topPage['tx_cssselect_stylesheets']);
+
                     // Process each selected file
-                    foreach( $pageFiles as $file ) {
-                        
+                    foreach ($pageFiles as $file) {
+
                         // Checks if the ResourceCompressor must be used to compress the css files
-                        if( isset( $this->_conf[ 'useCompressor' ] ) && $this->_conf[ 'useCompressor' ] ) {
+                        if (isset($this->_conf['useCompressor']) && $this->_conf['useCompressor']) {
                             $file = $this->getCompressor()->compressCssFile($file);
                         }
-                        
+
                         // Adds the selected stylesheet
-                        $files[ $file ] = array(
+                        $files[$file] = array(
                             'file' => $file,
-                            'pid'  => $topPage[ 'uid' ]
+                            'pid' => $topPage['uid']
                         );
                     }
                 }
             }
-            
-        } elseif( $GLOBALS[ 'TSFE' ]->page[ 'tx_cssselect_stylesheets' ] ) {
-                    
+        } elseif ($GLOBALS['TSFE']->page['tx_cssselect_stylesheets']) {
+
             // Gets the selected CSS files for the current page
-            $pageFiles = explode( ',', $GLOBALS[ 'TSFE' ]->page[ 'tx_cssselect_stylesheets' ] );
-            
+            $pageFiles = explode(',', $GLOBALS['TSFE']->page['tx_cssselect_stylesheets']);
+
             // Process each selected file
-            foreach( $pageFiles as $file ) {
-                
+            foreach ($pageFiles as $file) {
+
                 // Checks if the ResourceCompressor must be used to compress the css files
-                if( isset( $this->_conf[ 'useCompressor' ] ) && $this->_conf[ 'useCompressor' ] ) {
+                if (isset($this->_conf['useCompressor']) && $this->_conf['useCompressor']) {
                     $file = $this->getCompressor()->compressCssFile($file);
                 }
-                
+
                 // Adds the selected stylesheet
-                $files[ $file ] = array(
+                $files[$file] = array(
                     'file' => $file,
-                    'pid'  => $GLOBALS[ 'TSFE' ]->page[ 'uid' ]
+                    'pid' => $GLOBALS['TSFE']->page['uid']
                 );
             }
         }
-        
+
         // Returns the CSS files if any, otherwise false
-        return ( count( $files ) ) ? $files : false;
+        return ( count($files) ) ? $files : false;
     }
-    
+
     /**
      * Adds one or more stylesheet(s) to the TYPO3 page headers.
      * 
@@ -260,69 +243,68 @@ class tx_cssselect_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
      * @see     _buildIndex
      * @see     _buildImports
      */
-    public function main( $content, array $conf )
+    public function main($content, array $conf)
     {
         // Checks for the extension configuration
-        if( isset( $GLOBALS[ 'TYPO3_CONF_VARS' ][ 'EXT' ][ 'extConf' ][ 'css_select' ] ) ) {
-            
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['css_select'])) {
+
             // Stores the TS configuration array
-            $this->_conf     = $conf;
-            
+            $this->_conf = $conf;
+
             // Stores the extension configuration
-            $this->_extConf  = unserialize( $GLOBALS[ 'TYPO3_CONF_VARS' ][ 'EXT' ][ 'extConf' ][ 'css_select' ] );
-            
+            $this->_extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['css_select']);
+
             // Gets the CSS files
-            if( $this->_cssFiles = $this->_getCSSFiles() ) {
-                
+            if ($this->_cssFiles = $this->_getCSSFiles()) {
+
                 // Storage for the header data
                 $headerData = array();
-                
+
                 // Checks for XHTML rules
-                if( isset( $this->_conf[ 'xHTML' ] ) && $this->_conf[ 'xHTML' ] ) {
-                    
+                if (isset($this->_conf['xHTML']) && $this->_conf['xHTML']) {
+
                     // Start for HTML comments
                     $startComment = '/* <![CDATA[ */';
-                    
+
                     // End for HTML comments
-                    $endComment   = '/* ]]> */';
-                    
+                    $endComment = '/* ]]> */';
+
                     // End for tags
-                    $endTag       = ' /';
-                    
+                    $endTag = ' /';
                 } else {
-                    
+
                     // Start for HTML comments
                     $startComment = '<!--';
-                    
+
                     // End for HTML comments
-                    $endComment   = '-->';
-                    
+                    $endComment = '-->';
+
                     // End for tags
-                    $endTag       = '';
+                    $endTag = '';
                 }
-                
+
                 // Rel parameter
-                $rel        = ( isset( $this->_conf[ 'linkRel' ] )     && $this->_conf[ 'linkRel' ] )     ? ' rel="'     . $this->_conf[ 'linkRel' ]     . '"' : '';
-                
+                $rel = ( isset($this->_conf['linkRel']) && $this->_conf['linkRel'] ) ? ' rel="' . $this->_conf['linkRel'] . '"' : '';
+
                 // Type parameter
-                $type       = ( isset( $this->_conf[ 'cssType' ] )     && $this->_conf[ 'cssType' ] )     ? ' type="'    . $this->_conf[ 'cssType' ]     . '"' : '';
-                
+                $type = ( isset($this->_conf['cssType']) && $this->_conf['cssType'] ) ? ' type="' . $this->_conf['cssType'] . '"' : '';
+
                 // Media parameter
-                $media      = ( isset( $this->_conf[ 'cssMedia' ] )    && $this->_conf[ 'cssMedia' ] )    ? ' media="'   . $this->_conf[ 'cssMedia' ]    . '"' : '';
-                
+                $media = ( isset($this->_conf['cssMedia']) && $this->_conf['cssMedia'] ) ? ' media="' . $this->_conf['cssMedia'] . '"' : '';
+
                 // Charset parameter
-                $charset    = ( isset( $this->_conf[ 'linkCharset' ] ) && $this->_conf[ 'linkCharset' ] ) ? ' charset="' . $this->_conf[ 'linkCharset' ] . '"' : '';
-                
+                $charset = ( isset($this->_conf['linkCharset']) && $this->_conf['linkCharset'] ) ? ' charset="' . $this->_conf['linkCharset'] . '"' : '';
+
                 // Checks how to include the stylesheets
-                if( isset( $conf[ 'importRules' ] ) && $conf[ 'importRules' ] ) {
-                    
+                if (isset($conf['importRules']) && $conf['importRules']) {
+
                     // Builds the <style> tag
                     $headerData[] = '<style' . $type . $media . '>';
                     $headerData[] = $startComment;
-                    
+
                     // Checks if a comment must be included
-                    if( isset( $conf[ 'cssComments' ] ) && $conf[ 'cssComments' ] ) {
-                        
+                    if (isset($conf['cssComments']) && $conf['cssComments']) {
+
                         // Adds the CSS comment
                         $headerData[] = $this->_TAB . '/***************************************************************';
                         $headerData[] = $this->_TAB . ' * Styles added by plugin "tx_cssselect_pi1"';
@@ -331,17 +313,16 @@ class tx_cssselect_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
                         $headerData[] = $this->_buildIndex();
                         $headerData[] = $this->_TAB . ' ***************************************************************/';
                     }
-                    
+
                     // Adds the stylesheets
                     $headerData[] = $this->_buildImports();
                     $headerData[] = $endComment;
                     $headerData[] = '</style>';
-                    
                 } else {
-                    
+
                     // Checks if a comment must be included
-                    if( isset( $conf[ 'cssComments' ] ) && $conf[ 'cssComments' ] ) {
-                        
+                    if (isset($conf['cssComments']) && $conf['cssComments']) {
+
                         // Adds the CSS comment
                         $headerData[] = '<!--';
                         $headerData[] = $this->_TAB . '/***************************************************************';
@@ -351,20 +332,20 @@ class tx_cssselect_pi1 extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin
                         $headerData[] = $this->_buildIndex();
                         $headerData[] = $this->_TAB . ' ***************************************************************/';
                         $headerData[] = '-->';
-                        
                     }
-                    
+
                     // Builds a <link> tag for each stylesheet
-                    foreach( $this->_cssFiles as $key => $value ) {
-                        
+                    foreach ($this->_cssFiles as $key => $value) {
+
                         // Adds the stylesheet
-                        $headerData[] = '<link' . $rel . ' href="' . $value[ 'file' ] . '"' . $type . $media . $charset . $endTag . '>';
+                        $headerData[] = '<link' . $rel . ' href="' . $value['file'] . '"' . $type . $media . $charset . $endTag . '>';
                     }
                 }
-                
+
                 // Return the header data
-                return $this->_NL . implode( $this->_NL, $headerData ) . $this->_NL;
+                return $this->_NL . implode($this->_NL, $headerData) . $this->_NL;
             }
         }
     }
+
 }
