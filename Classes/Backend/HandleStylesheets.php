@@ -76,7 +76,7 @@ class HandleStylesheets
         } else {
             
             // New instance of the SPL directory iterator class
-            $iterator = new DirectoryIterator( $path );
+            $iterator = new \DirectoryIterator( $path );
         }
         
         // Process each file
@@ -165,7 +165,7 @@ class HandleStylesheets
             }
             
             // Stores the CSS extensions
-            $_cssExt        = explode( ',', $extConf[ 'CSSEXT' ] );
+            $cssExt        = explode( ',', $extConf[ 'CSSEXT' ] );
             
             // Stores the list of CSS extensions
             $this->_cssExt = array_flip( $cssExt );
