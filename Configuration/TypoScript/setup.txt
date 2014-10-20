@@ -25,6 +25,7 @@
  * Default TS setup - Extension 'CSS Select'
  *
  * @author      Jean-David Gadina (info@macmade.net)
+ * @author      Sébastien Convers <sebastien.convers@educagri.fr>
  * @version     1.0
  */
 

@@ -26,6 +26,7 @@
  * Class/Function for updating the extension from older versions.
  *
  * @author      Jean-David Gadina (info@macmade.net)
+ * @author      Sébastien Convers <sebastien.convers@educagri.fr>
  * @version     1.0
  */
 

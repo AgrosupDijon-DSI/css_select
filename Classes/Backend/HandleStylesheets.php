@@ -29,6 +29,7 @@ namespace Cnerta\CssSelect\Backend;
  * Class/Function which manipulates the item-array for table/field pages_tx_cssselect_stylesheets.
  *
  * @author      Jean-David Gadina <info@macmade.net>
+ * @author      Sébastien Convers <sebastien.convers@educagri.fr>
  * @version     2.0
  */
 
