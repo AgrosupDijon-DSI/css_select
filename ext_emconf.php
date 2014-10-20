@@ -34,6 +34,15 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_company' => 'eduter-cnerta.fr',
 	'CGLcompliance' => '',
 	'CGLcompliance_note' => '',
+        'constraints' => array(
+            'depends' => array(
+                'typo3' => '6.2.0-6.2.99',
+            ),
+            'conflicts' => array(
+            ),
+            'suggests' => array(
+            ),
+        ),
 );
 
 ?>
