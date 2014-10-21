@@ -1,0 +1,7 @@
+﻿.. |img-5|      image:: ../../../Images/manual_html_m6215b93a.jpg
+   :height: 236
+   :width: 575
+.. :align: left
+.. :border: 0
+.. :name: graphics4
+
