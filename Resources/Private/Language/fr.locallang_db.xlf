@@ -17,7 +17,7 @@
                     </trans-unit>
                     <trans-unit id="pages.tx_cssselect_inheritance.I.2" xml:space="preserve">
                         <source>Stop (don't herit from this page and the pages above)</source>
-                        <target state="translated">Arrêter (Ne pas hériter de cette page et des sous-pages</target>
+                        <target state="translated">Arrêter (Ne pas hériter de cette page et du dessus)</target>
                     </trans-unit>
 		</body>
 	</file>
