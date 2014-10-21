@@ -34,12 +34,12 @@
 /**
  * [CLASS/FUNCTION INDEX OF SCRIPT]
  * 
- *   46:    class ext_update
- *   71:    public function __construct
- *  110:    protected function _listPages
- *  226:    protected function _updatePages
- *  287:    public function access
- *  320:    public function main
+ *   49:    class ext_update
+ *   70:    public function __construct
+ *  109:    protected function _listPages
+ *  225:    protected function _updatePages
+ *  284:    public function access
+ *  313:    public function main
  * 
  *          TOTAL FUNCTIONS: 5
  */
@@ -120,7 +120,6 @@ class ext_update
                 . '" method="post" id="updateCssSelect" name="updateCssSelect">';
 
         // Infos
-        // TODO : sprintf / EOF + voir gfx/i
         $htmlCode[] = '<div>'
                 . '<img '
                 . IconUtility::skinImg($this->_backPath, 'gfx/icon_note.gif', '')
