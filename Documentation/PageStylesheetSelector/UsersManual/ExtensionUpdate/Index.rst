@@ -21,9 +21,6 @@ Extension update
 If you are upgrading from an older version, you will have to update
 the database. From the extension manager, you'll see an update option.
 
-If you don't see this item in the menu, that means that your database
-doesn't need to be updated.
-
 |img-2|
 
 On the update page, you'll see the list of the TYPO3 pages that will

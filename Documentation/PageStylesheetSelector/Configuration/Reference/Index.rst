@@ -27,21 +27,6 @@ editor.
 .. container:: table-row
 
    Property
-         Property:
-   
-   Data type
-         Data type:
-   
-   Description
-         Description:
-   
-   Default
-         Default:
-
-
-.. container:: table-row
-
-   Property
          recursive
    
    Data type
@@ -98,6 +83,21 @@ editor.
    
    Default
          1
+
+
+.. container:: table-row
+
+   Property
+         useCompressor
+   
+   Data type
+         boolean
+   
+   Description
+         Use TYPO3 ResourceCompressor to compress css files
+   
+   Default
+         0
 
 
 .. container:: table-row

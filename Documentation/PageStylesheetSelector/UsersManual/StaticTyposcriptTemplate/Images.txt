@@ -1,6 +1,6 @@
-﻿.. |img-4|      image:: ../../../Images/manual_html_5d935596.jpg
-   :height: 178
-   :width: 555
+﻿.. |img-4|      image:: ../../../Images/manual_html_5d935596.png
+   :height: 204
+   :width: 659
 .. :align: left
 .. :border: 0
 .. :name: graphics6

@@ -18,6 +18,11 @@
 Changelog
 ---------
 
+- 6.2.0 9th public relase.
+  
+  - Adaptation for TYPO3 6.2
+  - Added the possibility to minify and compress the CSS
+
 - 1.0.3 8th public release.
   
   - Fixed a bug with the CSS @import rules on Internet Explorer.

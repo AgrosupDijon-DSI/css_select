@@ -1,13 +1,13 @@
-﻿.. |img-2|      image:: ../../../Images/manual_html_m1b22600e.jpg
-   :height: 130
-   :width: 160
+﻿.. |img-2|      image:: ../../../Images/manual_html_m1b22600e.png
+   :height: 81
+   :width: 680
 .. :align: left
 .. :border: 0
 .. :name: graphics2
 
-.. |img-3|      image:: ../../../Images/manual_html_m7db914d3.jpg
-   :height: 267
-   :width: 669
+.. |img-3|      image:: ../../../Images/manual_html_m7db914d3.png
+   :height: 188
+   :width: 700
 .. :align: left
 .. :border: 0
 .. :name: graphics3
