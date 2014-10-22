@@ -1,0 +1,7 @@
+﻿.. |img-1|      image:: ../../../Images/manual_html_4da71644.jpg
+   :height: 327
+   :width: 618
+.. :align: left
+.. :border: 0
+.. :name: graphics1
+
