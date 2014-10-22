@@ -94,7 +94,9 @@ editor.
          boolean
    
    Description
-         Use TYPO3 ResourceCompressor to compress css files
+         Use TYPO3 ResourceCompressor to minify and compress css files.
+         Minification will remove all excess space.
+         Compression will depends of the settings of your TYPO3 installation. See $TYPO3_CONF_VARS['FE']['compressionLevel']
    
    Default
          0
