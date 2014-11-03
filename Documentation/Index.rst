@@ -25,16 +25,16 @@ Page StyleSheet Selector
       2002-11-01 32::0:0:
 
 :Changed by:
-      Jean-David Gadina
+      Sebastien Convers
 
 :Changed:
-      2008-05-02 93::3:4:
+      2014-11-03 93::3:4:
 
 :Author:
       Jean-David Gadina
 
 :Email:
-      info@macmade.net
+      sebastien.convers@educagri.fr
 
 :Info 3:
 
