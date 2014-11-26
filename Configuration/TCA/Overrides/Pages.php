@@ -44,7 +44,7 @@ $tempColumns = array(
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns( 'pages', $tempColumns, true );
 
 // Adds the fields to all types of the 'pages' table
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes( 'pages', 'tx_cssselect_stylesheets;;;;1-1-1, tx_cssselect_inheritance' );
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes( 'pages', 'tx_cssselect_stylesheets;;;;1-1-1, tx_cssselect_inheritance', '', 'before:content_from_pid');
 
 // Unsets the temporary variables to clean up the global space
 unset( $tempColumns );
