@@ -81,7 +81,7 @@ class ext_update
         $this->_NL = chr(10);
 
         // New instance of the TYPO3 document class
-        $this->_doc = GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Template\\BigDocumentTemplate');
+        $this->_doc = GeneralUtility::makeInstance('TYPO3\\CMS\\Backend\\Template\\DocumentTemplate');
 
         // Checks for the extension configuration
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['css_select'])) {
@@ -166,7 +166,7 @@ class ext_update
             if (!isset($pageIcons[$page['doktype']])) {
 
                 // Gets the icon for the current page type
-                $pageIcons[$page['doktype']] = IconUtility::getIconImage('pages', $page, $this->_backPath);
+                $pageIcons[$page['doktype']] = IconUtility::getSpriteIconForRecord('pages', $page);
             }
 
             // Row color
